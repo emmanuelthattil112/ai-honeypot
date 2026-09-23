@@ -1,0 +1,6 @@
+# Added to the very top of /etc/ufw/before.rules (above *filter).
+# Sends anything hitting port 22 to Cowrie on 2222. Survives reboots with ufw.
+*nat
+:PREROUTING ACCEPT [0:0]
+-A PREROUTING -p tcp --dport 22 -j REDIRECT --to-port 2222
+COMMIT

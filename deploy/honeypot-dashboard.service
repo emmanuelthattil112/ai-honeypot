@@ -1,0 +1,14 @@
+[Unit]
+Description=Honeypot Dashboard
+After=network.target
+
+[Service]
+User=honeypotadmin
+WorkingDirectory=/home/honeypotadmin/honeypot-analyzer
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/home/honeypotadmin/honeypot-analyzer/venv/bin/python dashboard.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,16 @@
+[Unit]
+Description=Honeypot Claude Analyzer
+After=network-online.target cowrie.service
+Wants=network-online.target
+
+[Service]
+User=honeypotadmin
+WorkingDirectory=/home/honeypotadmin/honeypot-analyzer
+EnvironmentFile=/etc/honeypot-analyzer.env
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/home/honeypotadmin/honeypot-analyzer/venv/bin/python analyze.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,8 @@
+venv/
+__pycache__/
+*.env
+attacker_profiles.jsonl
+stats.json
+summary_cache.json
+state.json
+*.tmp
