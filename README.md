@@ -6,6 +6,42 @@ Bots find the server on their own, log in with guessed passwords, and run their 
 
 Nothing here is simulated. Every session on the dashboard is real internet traffic.
 
+## Results: 13 days on the internet
+
+I ran this on a small DigitalOcean droplet from Sep 23 to Oct 5, 2026, with no announcement and no links to it anywhere. Scanners found it on their own.
+
+| | |
+|---|---|
+| Connections | 67,267 |
+| Unique IPs | 1,486 |
+| Login attempts / accepted | 64,432 / 64,096 |
+| Sessions that ran commands | 62,005 |
+| Claude-profiled new playbooks | 51 |
+| Repeat sessions recognized (no new API call) | 61,948 |
+
+![Dashboard overview](screenshots/dashboard-overview.png)
+
+**What stood out**
+
+- **Almost all of it was automated.** About 9 in 10 commands were the same quick `uname` check of the operating system. Nine of the ten busiest IPs came from one address block (109.160.32.x) and repeated the same counts, which looks like one operator running one script.
+- **Common logins.** `root` was the most tried username by a wide margin and `123456` was the most tried password. Cowrie accepts logins on purpose, so the "got in" number shows what bots try, not how good they are at guessing.
+- **Persistence attempts.** 379 sessions wiped `~/.ssh` and added the attacker's own key to `authorized_keys`. The key comment (`mdrfckr`) matches a long-running botnet campaign that other honeypot operators have reported.
+- **Malware downloads.** Bots tried to pull files named `kworker`, `telnet`, `telnetd`, and `sshd` from `213[.]232[.]114[.]14`. I checked the `kworker` hash on VirusTotal: 38 of 64 vendors flag it, as a Mirai/Gafgyt-family IoT botnet.
+
+![kworker on VirusTotal](screenshots/virustotal-kworker.png)
+
+![Top commands](screenshots/top-commands.png)
+
+![Top passwords, usernames, and IPs](screenshots/top-passwords-ips.png)
+
+**MITRE ATT&CK techniques seen:** T1110.001, T1078, T1082, T1222.002, T1098.004, T1105, T1059.
+
+**What I'd detect on a real server:** changes to `authorized_keys`, `chattr` on `.ssh`, bursts of SSH sessions from one /24, and servers piping `wget`/`curl` output into `sh`.
+
+Full write-up: [docs/honeypot-findings-report.docx](docs/honeypot-findings-report.docx) (a snapshot from the Oct 5 log export, which had 67,244 connections).
+
+The raw logs aren't published. They contain attacker IPs and the passwords they tried.
+
 ## How it fits together
 
 ```

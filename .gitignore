@@ -6,3 +6,6 @@ stats.json
 summary_cache.json
 state.json
 *.tmp
+
+honeypot-logs/
+cowrie.json*
