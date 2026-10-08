@@ -28,11 +28,9 @@ I ran this on a small DigitalOcean droplet from Sep 23 to Oct 5, 2026, with no a
 - **Persistence attempts.** 379 sessions wiped `~/.ssh` and added the attacker's own key to `authorized_keys`. The key comment (`mdrfckr`) matches a long-running botnet campaign that other honeypot operators have reported.
 - **Malware downloads.** Bots tried to pull files named `kworker`, `telnet`, `telnetd`, and `sshd` from `213[.]232[.]114[.]14`. I checked the `kworker` hash on VirusTotal: 38 of 64 vendors flag it, as a Mirai/Gafgyt-family IoT botnet.
 
-![kworker on VirusTotal](screenshots/virustotal-kworker.png)
 
 ![Top commands](screenshots/top-commands.png)
 
-![Top passwords, usernames, and IPs](screenshots/top-passwords-ips.png)
 
 **MITRE ATT&CK techniques seen:** T1110.001, T1078, T1082, T1222.002, T1098.004, T1105, T1059.
 
